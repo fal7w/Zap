@@ -5,8 +5,8 @@ on:
 jobs:
   zap_scan:
     runs-on: 
-    # - ubuntu-latest
-    - self-hosted
+    - ubuntu-latest
+    # - self-hosted
     name: Scan the webapplication
     steps:
       - name: ZAP Scan
