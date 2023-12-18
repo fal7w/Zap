@@ -1,0 +1,27 @@
+name: OWSAP ZAP
+on:
+  workflow_dispatch:
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: ZAP Scan
+        run: |
+          touch report_json.json report_md.md report_html.html
+          chmod a+w report_json.json report_md.md report_html.html
+          docker pull ghcr.io/zaproxy/zaproxy:stable -q
+          docker run -v $(pwd):/zap/wrk/:rw \
+          --network=host \
+          -e ZAP_AUTH_HEADER_VALUE=${{ secrets.ZAP_BASIC_TOKEN }} \
+          -t ghcr.io/zaproxy/zaproxy:stable \
+           zap-full-scan.py \
+          -t https://remittance.v1.fintechsys.net/admin/login/?next=/admin \
+          -J report_json.json -w report_md.md -r report_html.html
+
+
