@@ -18,6 +18,9 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
+    env:
+      ZAP_USERNAME: ${{ secrets.ZAP_USERNAME }}
+      ZAP_PASSWORD: ${{ secrets.ZAP_PASSWORD }}
     permissions: write-all
     name: Scan the webapplication
     steps:
@@ -25,6 +28,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+      - name: Set Authentication Credentials
+        run: |
+          echo "ZAP_USERNAME=$ZAP_USERNAME" 
+          echo "ZAP_PASSWORD=$ZAP_PASSWORD"
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.8.0
         with:
@@ -32,4 +39,4 @@ jobs:
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           target: 'https://remittance.v1.fintechsys.net/admin/login/?next=/admin/'
           # rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          cmd_options: '-a -u $ZAP_USERNAME -p $ZAP_PASSWORD'
