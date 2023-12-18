@@ -34,4 +34,4 @@ jobs:
           # http_login_http_username: 'admin'
           # http_login_http_password: ${{ secrets.ZAP_USER_PW }}
           # rules_file_name: '.zap/rules.tsv'
-          cmd_options: ' -n auth_context.zst -U admin'
+          cmd_options: ' -n my_context_file -U admin'
