@@ -13,6 +13,9 @@ jobs:
       - name: command lin
         run: |
           export ZAP_AUTH_HEADER_VALUE="${{ env.ZAP_AUTH_HEADER_VALUE }}"
+          echo ZAP_AUTH_HEADER_VALUE="${{ env.ZAP_AUTH_HEADER_VALUE }}" >> $GITHUB_ENV
+          echo ZAP_AUTH_HEADER_VALUE="${{ env.ZAP_AUTH_HEADER_VALUE }}" >> .env
+          echo $GITHUB_ENV
         
       - name: Checkout
         uses: actions/checkout@v2
