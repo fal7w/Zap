@@ -6,9 +6,7 @@ jobs:
   zap_scan:
     runs-on: ubuntu-latest
     env:
-      ZAP_AUTH_HEADER_VALUE: Basic ${{ secrets.BASIC_TOKEN }}
-      ZAP_USERNAME: ${{ secrets.ZAP_USERNAME }}
-      ZAP_PASSWORD: ${{ secrets.ZAP_PASSWORD }}
+      ZAP_AUTH_HEADER_VALUE: Basic ${{ secrets.ZAP_BASIC_TOKEN }}
     permissions: write-all
     name: Scan the webapplication
     steps:
