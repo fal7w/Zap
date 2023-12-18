@@ -30,4 +30,4 @@ jobs:
           env_vars: |
             ZAP_AUTH_HEADER_VALUE=${{ env.ZAP_AUTH_HEADER_VALUE }}
           # rules_file_name: '.zap/rules.tsv'
-          # cmd_options: '-a -u admin -p admin'
+          cmd_options: '--env-file $GITHUB_ENV'
