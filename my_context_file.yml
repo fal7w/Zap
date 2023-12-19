@@ -1,23 +1,43 @@
-env:
-  contexts:
-  - name: "remittance_admin"
-    urls:
-    - https://remittance.v1.fintechsys.net/admin/
-    includePaths: []
-    excludePaths: []
-    authentication:
-      method: "browser"
-      parameters: 
-        loginPageUrl: "https://remittance.v1.fintechsys.net/admin/login/"
-      verification:
-        method: "autodetect"
-    sessionManagement:
+# env:
+#   contexts:
+#   - name: "remittance_admin"
+#     urls:
+#     - https://remittance.v1.fintechsys.net/admin/
+#     includePaths: []
+#     excludePaths: []
+#     authentication:
+#       method: "browser"
+#       parameters: 
+#         loginPageUrl: "https://remittance.v1.fintechsys.net/admin/login/"
+#       verification:
+#         method: "autodetect"
+#     sessionManagement:
+#       method: "autodetect"
+#     users:
+#     - name: "admin"
+#       credentials:
+#         username: "admin"
+#         password: "admin"
+
+contexts:
+- name: "remittance_admin"
+  urls:
+  - https://remittance.v1.fintechsys.net/admin/
+  includePaths: []
+  excludePaths: []
+  authentication:
+    method: "browser"
+    parameters: 
+      loginPageUrl: "https://remittance.v1.fintechsys.net/admin/login/"
+    verification:
       method: "autodetect"
-    users:
-    - name: "admin"
-      credentials:
-        username: "admin"
-        password: "admin"
+  sessionManagement:
+    method: "autodetect"
+  users:
+  - name: "admin"
+    credentials:
+      username: "admin"
+      password: "admin"
 
 # includeDefaultContext: false
 # context:
