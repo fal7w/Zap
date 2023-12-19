@@ -29,8 +29,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Zap_Report_1
-          path: ./Zap_Report_1
-  
+          path: Zap/actions/runs/Zap_Report_5
+      # report_html.html
       - name: Send Email with Artifact
         uses: dawidd6/action-send-mail@v3
         with:
@@ -39,6 +39,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Automated Artifact
+          html_body: file://report_html.html
           body: Build artifact attached.
           to: ${{ secrets.USERS_EMAILS }}
           from: f.alfalahi@fintechsys.net
