@@ -10,11 +10,20 @@ jobs:
     permissions: write-all
     name: Scan the webapplication
     steps:
-      # - name: command lin
-      #   run: |
-      #     export ZAP_AUTH_HEADER_VALUE="${{ env.ZAP_AUTH_HEADER_VALUE }}"
-       # -e ZAP_AUTH_HEADER_VALUE="${ZAP_AUTH_HEADER_VALUE}"
-      #     echo $GITHUB_ENV
+      - name: command lin
+        run: |
+          cat > contecxt.yml <<< EOF
+          context:
+          - name: myContext
+            authentication:
+              scriptBasedAuthentication:
+                name: "Form Based Authentication"
+                configParams:
+                  loginUrl: "https://remittance.v1.fintechsys.net/admin/login/"
+                  loginRequestData: "username=admin&password=admin&submit=Login"
+                  logoutUrl: "https://remittance.v1.fintechsys.net/admin/logout/"
+                scriptName: "form-based-authentication"
+            <<< EOF
         
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,4 +43,4 @@ jobs:
           # http_login_http_username: 'admin'
           # http_login_http_password: ${{ secrets.ZAP_USER_PW }}
           # rules_file_name: '.zap/rules.tsv'
-          cmd_options: ' -n /zap/wrk/my_context_file.JSON -U admin'
+          cmd_options: ' -n contecxt.yml -U admin'
