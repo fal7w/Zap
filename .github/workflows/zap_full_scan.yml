@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: command lin
         run: |
-          cat > contecxt.yml <<< EOF
+          cat > contecxt.yml << EOF
           context:
           - name: myContext
             authentication:
@@ -23,7 +23,7 @@ jobs:
                   loginRequestData: "username=admin&password=admin&submit=Login"
                   logoutUrl: "https://remittance.v1.fintechsys.net/admin/logout/"
                 scriptName: "form-based-authentication"
-            <<< EOF
+            EOF
         
       - name: Checkout
         uses: actions/checkout@v2
