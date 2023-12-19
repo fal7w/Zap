@@ -1,4 +1,4 @@
-name: ZAP Full Scan
+name: ZAP_2
 on:
   workflow_dispatch:
   
