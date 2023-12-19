@@ -40,12 +40,25 @@ jobs:
       #     attachments: ${{ github.workspace }}/Zap_Report_2
 
 
-      - name: Nextcloud Artifact
-        uses: trympet/nextcloud-artifacts-action@v2
+      - name: Upload to Nextcloud
+        uses: MarcinOrlowski/nextcloud-upload-file@v1
         with:
-          name: 'Zap_Report_2'                               
-          path: dist
-          # path: 'bin/**/*.exe'                                 
-          nextcloud-url: 'https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723'        
-          nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} 
-          nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+          url: https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723
+          username: ${{ secrets.NEXTCLOUD_USERNAME }}
+          password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+          local_file_path: report_html.html
+          remote_file_path: /Documents/ff/report_html.html
+
+
+
+
+
+      # - name: Nextcloud Artifact
+      #   uses: trympet/nextcloud-artifacts-action@v2
+      #   with:
+      #     name: 'Zap_Report_2'                               
+      #     path: dist
+      #     # path: 'bin/**/*.exe'                                 
+      #     nextcloud-url: 'https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723'        
+      #     nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} 
+      #     nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
