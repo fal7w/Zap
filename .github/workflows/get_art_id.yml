@@ -1,0 +1,36 @@
+name: Get Last Artifact ID
+
+on:
+  workflow_dispatch:
+  # workflow_run:
+  #   workflows: ["Your Workflow Name"]
+  #   types:
+  #     - completed
+
+jobs:
+  get-artifact-id:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get last artifact ID
+        id: get-artifact-id
+        run: |
+          # Make a request to the GitHub API to get the last artifact ID
+          ARTIFACT_ID=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                       "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+                       | jq -r '.artifacts | sort_by(.created_at) | last .id')
+
+          echo "Last Artifact ID: $ARTIFACT_ID"
+
+        # Output the last artifact ID as an output variable
+        env:
+          ARTIFACT_ID: ${{ steps.get-artifact-id.outputs.ARTIFACT_ID }}
+        shell: bash
+
+      - name: Use last artifact ID
+        run: |
+          # Use the last artifact ID in subsequent steps or commands
+          echo "Using Artifact ID: $ARTIFACT_ID"
