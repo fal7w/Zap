@@ -44,7 +44,7 @@ jobs:
         uses: trympet/nextcloud-artifacts-action@v2
         with:
           name: 'Zap_Report_2'                               
-          path: 'fal7w/Zap/blob/main/Zap_Report_2'
+          path: 'https://api.github.com/repos/fal7w/Zap.git/actions/artifacts'
           # path: 'bin/**/*.exe'                                 
           nextcloud-url: 'https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723'        
           nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} 
