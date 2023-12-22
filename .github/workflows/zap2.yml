@@ -8,7 +8,6 @@ jobs:
     permissions: write-all
     name: Scan the webapplication
     steps:
-  
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -20,11 +19,18 @@ jobs:
         uses: zaproxy/action-full-scan@v0.8.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue_title: Scan Results_9
-          artifact_name: Zap_Report_2
+          issue_title: Scan Results_22
+          artifact_name: Zap_Report_22
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           target: 'https://remittance.v1.fintechsys.net/admin/'
 
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: Zap_Report_22
+          path: .github
+      - name: Display structure of downloaded files
+        run: ls -R .github
       # - name: Send Email with Artifact
       #   uses: dawidd6/action-send-mail@v3
       #   with:
@@ -40,14 +46,14 @@ jobs:
       #     attachments: ${{ github.workspace }}/Zap_Report_2
 
 
-      - name: Upload to Nextcloud
-        uses: MarcinOrlowski/nextcloud-upload-file@v1
-        with:
-          url: https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723
-          username: ${{ secrets.NEXTCLOUD_USERNAME }}
-          password: ${{ secrets.NEXTCLOUD_PASSWORD }}
-          local_file_path: report_html.html
-          remote_file_path: /Documents/ff/report_html.html
+      # - name: Upload to Nextcloud
+      #   uses: MarcinOrlowski/nextcloud-upload-file@v1
+      #   with:
+      #     url: https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723
+      #     username: ${{ secrets.NEXTCLOUD_USERNAME }}
+      #     password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+      #     local_file_path: report_html.html
+      #     remote_file_path: /Documents/ff/report_html.html
 
 
 
