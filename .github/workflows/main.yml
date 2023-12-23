@@ -3,17 +3,31 @@ on:
   workflow_dispatch:
   
 jobs:
-  zap_scan:
+ DOwnload_artficat:
     runs-on: ubuntu-latest
     # permissions: write-all
-    # name: Scan the webapplication]
-
+    # name: Scan the webapplication
     steps:
-    - uses: actions/download-artifact@v4
-      with:
-        path: .github/workflows/
-    - name: Display structure of downloaded files
-      run: ls -R .github/workflows/
+      # Checkout your repository
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      # Download artifact from the previous workflow run
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Zap_Report_22   # Replace with your artifact name
+
+      # Upload to Nextcloud
+      - name: Upload to Nextcloud
+        run: |
+          curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
+               -T Zap_Report_22 \
+               "https://nextcloud.fintechsys.net/index.php/webdav/Documents/ff/"
+        env:
+          NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USERNAME }}
+          NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
+
     # steps:
     
     # - uses: actions/checkout@v2
