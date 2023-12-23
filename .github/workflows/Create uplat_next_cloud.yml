@@ -1,0 +1,20 @@
+name: upload to next cloud
+on:
+  workflow_dispatch:
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Upload to Nextcloud
+      uses: appleboy/webdav-upload-action@master
+      with:
+        url: ${{ secrets.NEXTCLOUD_URL }}
+        username: ${{ secrets.NEXTCLOUD_USERNAME }}
+        password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+        source: "my_context_file.yml"
+        target: "Documents/ff"
