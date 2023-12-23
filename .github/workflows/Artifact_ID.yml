@@ -1,0 +1,45 @@
+name: Artifact ID Example
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Add your build steps here
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Zap_Report_211 
+
+  retrieve-artifact-info:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Artifact Info
+        id: get_artifact
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const runId = process.env.GITHUB_RUN_ID;
+            const repo = context.repo;
+            const result = await github.actions.listWorkflowRunArtifacts({
+              owner: repo.fal7w,
+              repo: repo.Zap,
+              run_id: runId
+            });
+            const artifact = result.data.artifacts.find(artifact => artifact.name === 'Zap_Report_211');
+            if (artifact) {
+              console.log(`Artifact Name: ${artifact.name}`);
+              console.log(`Artifact ID: ${artifact.id}`);
+              console.log(`Artifact URL: ${artifact.archive_download_url}`);
+              return { id: artifact.id, url: artifact.archive_download_url };
+            } else {
+              throw new Error('Artifact not found');
+            }
+      - name: Echo Artifact Info
+        run: |
+          echo "Artifact ID: ${{ steps.get_artifact.outputs.id }}"
+          echo "Artifact URL: ${{ steps.get_artifact.outputs.url }}"
