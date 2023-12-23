@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Upload to Nextcloud
-      uses: appleboy/webdav-upload-action@master
+      uses: appleboy/webdav-upload-action@main
       with:
         url: ${{ secrets.NEXTCLOUD_URL }}
         username: ${{ secrets.NEXTCLOUD_USERNAME }}
