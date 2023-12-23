@@ -1,6 +1,7 @@
 name: Artifact ID Example
 
-on: [push]
+on:
+  workflow_dispatch:
 
 jobs:
   build:
