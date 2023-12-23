@@ -12,4 +12,4 @@ jobs:
       with:
         path: .github/workflows/
     - name: Display structure of downloaded files
-      run: ls -R path/to/artifacts
+      run: ls -R .github/workflows/
