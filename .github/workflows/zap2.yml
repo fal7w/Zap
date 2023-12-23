@@ -49,7 +49,7 @@ jobs:
         NEXTCLOUD_APP_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
         NEXTCLOUD_URL: "https://nextcloud.fintechsys.net/index.php/u/f.falah/" # replace with your Nextcloud WebDAV URL
       run: |
-        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_APP_PASSWORD -T /home/runner/work/Zap/Zap/.githb/Zap_Report_228/ https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/Documents/ff&fileid=8332
+        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_APP_PASSWORD -T .githb/Zap_Report_228/ https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/Documents/ff&fileid=8332
 
  # $NEXTCLOUD_URL/path/to/destination/
       # - name: dowmload
