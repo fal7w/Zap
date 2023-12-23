@@ -53,11 +53,11 @@ jobs:
   #   - name: Get Run ID
   #     run: echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
   
-  # get-artifact-url:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Get Artifact URL
+  get-artifact-url:
+    needs: zap_scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
   #       run: |
   #         echo "The artifact URL is: https://github.com/${{ github.repository }}/actions/runs/$RUN_ID"
   # Download_uplaod:
