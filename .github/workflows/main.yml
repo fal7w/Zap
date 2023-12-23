@@ -7,14 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     # permissions: write-all
     # name: Scan the webapplication]
-    
-    steps:
-    
-    - uses: actions/checkout@v2
 
-    - name: Upload files to Nextcloud
-      run: |
-        curl -u ${{ secrets.NEXTCLOUD_USER }}:${{ secrets.NEXTCLOUD_PASSWORD }} -T .github/workflows/my_context_file https://nextcloud.fintechsys.net/index.php/apps/files/falah/Documents/ff/
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: .github/workflows/
+    - name: Display structure of downloaded files
+      run: ls -R .github/workflows/
+    # steps:
+    
+    # - uses: actions/checkout@v2
+
+    # - name: Upload files to Nextcloud
+    #   run: |
+    #     curl -u ${{ secrets.NEXTCLOUD_USER }}:${{ secrets.NEXTCLOUD_PASSWORD }} -T .github/workflows/my_context_file https://nextcloud.fintechsys.net/index.php/apps/files/falah/Documents/ff/
 
 
       
