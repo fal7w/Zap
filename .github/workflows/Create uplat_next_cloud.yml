@@ -11,10 +11,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Upload to Nextcloud
-      uses: appleboy/webdav-upload-action@main
+      uses: appleboy/ftp-upload-action@v3
       with:
         url: ${{ secrets.NEXTCLOUD_URL }}
         username: ${{ secrets.NEXTCLOUD_USERNAME }}
         password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+        server-protocol: ftp
         source: "my_context_file.yml"
         target: "Documents/ff"
