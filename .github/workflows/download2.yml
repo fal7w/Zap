@@ -1,0 +1,15 @@
+name: download2 art
+on:
+  workflow_dispatch:
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/fal7w/Zap.git/actions/artifacts/1124225762
