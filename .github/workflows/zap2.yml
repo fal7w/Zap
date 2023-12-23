@@ -100,33 +100,26 @@ jobs:
   #             -g ${{ secrets.NEXTCLOUD_URL }}/remote.php/dav/files/${{ secrets.NEXTCLOUD_USERNAME }}/GitHub-Uploads/
   #         done
       # run: ls -R .github
-      - name: Send Email with Artifact
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: mail.fintechsys.net
-          server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Automated Artifact
-          html_body: file://report_html.html
-          body: Build artifact attached.
-          to: ${{ secrets.USERS_EMAILS }}
-          from: f.alfalahi@fintechsys.net
-          attachments: ${{ github.workspace }}/Zap_Report_2
+      # - name: Send Email with Artifact
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: mail.fintechsys.net
+      #     server_port: 465
+      #     username: ${{ secrets.EMAIL_USERNAME }}
+      #     password: ${{ secrets.EMAIL_PASSWORD }}
+      #     subject: Automated Artifact
+      #     html_body: file://report_html.html
+      #     body: Build artifact attached.
+      #     to: ${{ secrets.USERS_EMAILS }}
+      #     from: f.alfalahi@fintechsys.net
+      #     attachments: ${{ github.workspace }}/Zap_Report_2
 
 
 
 
           
   
-  Download-job:
-    needs: upload-job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: report_html.html
+  
 
           
 
