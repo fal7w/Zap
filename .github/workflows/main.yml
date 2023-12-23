@@ -1,0 +1,15 @@
+name: Download artfiacts
+on:
+  workflow_dispatch:
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    name: Scan the webapplication
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: .github/workflows/
+    - name: Display structure of downloaded files
+      run: ls -R path/to/artifacts
