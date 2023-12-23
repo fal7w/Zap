@@ -5,11 +5,29 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    permissions: write-all
-    name: Scan the webapplication
+    # permissions: write-all
+    # name: Scan the webapplication]
+    
     steps:
-    - uses: actions/download-artifact@v4
+    - 
+      uses: actions/download-artifact@v3
       with:
-        path: .github/workflows/
-    - name: Display structure of downloaded files
-      run: ls -R .github/workflows/
+        name: Zap_Report_22 
+    -
+      name: Decompress artifact
+      run: tar -xvf Zap_Report_22.tar.gz
+    -
+      name: Show files
+      run: ls -l Zap_Report_22
+    -
+      name: Upload files
+      run: |
+        for FILE in Zap_Report_22/*
+        do
+          echo "Uploading file: $FILE"
+          curl \
+            -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
+            -T "$FILE" \
+            -g ${{ secrets.NEXTCLOUD_URL }}/remote.php/dav/files/${{ secrets.NEXTCLOUD_USERNAME }}/GitHub-Uploads/
+        done
+      
