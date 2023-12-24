@@ -46,7 +46,7 @@ jobs:
         uses: trympet/nextcloud-artifacts-action@v2
         with:
           name: 'Zap_Report_220'                                   # Name of the artifact
-          path: '.githb/'                                  # Globbing supported
+          path: '.githb/report_html.html'                                  # Globbing supported
           nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
           nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
           nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
