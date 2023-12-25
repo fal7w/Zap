@@ -29,6 +29,8 @@ jobs:
     needs: zap_scan
     runs-on: self-hosted
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Download an artifact
         uses: actions/download-artifact@v3
         with:
