@@ -65,20 +65,20 @@ jobs:
           curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
                -T report_html.html \
                https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
-  # build-test:
-  #   needs: Download-job
-  #   name: Build & Test
-  #   runs-on: self-hosted
-  #   steps:
-  #     - uses: actions/checkout@v2                               # checkout the repo
-  #     - name: Nextcloud Artifact
-  #       uses: trympet/nextcloud-artifacts-action@v2
-  #       with:
-  #         name: 'Zap_Report_200'                                   # Name of the artifact
-  #         path: '.githb/report_html.html'                                  # Globbing supported
-  #         nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
-  #         nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
-  #         nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+  build-test:
+    needs: Download-job
+    name: Build & Test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2                               # checkout the repo
+      - name: Nextcloud Artifact
+        uses: trympet/nextcloud-artifacts-action@v2
+        with:
+          name: 'report_html.html'                                   # Name of the artifact
+          path: '.githb/'                                  # Globbing supported
+          nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
+          nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
+          nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
   # deploy:
   #   needs: Download-job
