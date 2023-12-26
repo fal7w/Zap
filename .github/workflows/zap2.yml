@@ -29,6 +29,8 @@ jobs:
       needs: zap_scan
       runs-on: self-hosted
       steps:
+        - name: Checkout
+          uses: actions/checkout@v2
         - uses: actions/upload-artifact@v2
           with:
             name: Zap_Report_200
@@ -49,7 +51,18 @@ jobs:
         run: ls -R .github/workflows/Zap_Report_200/
   
 
-
+  upload_to_Nextcloude:
+    needs: Download-job
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        # Upload to Nextcloud
+      - name: Upload to Nextcloud
+        run: |
+          curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
+               -T /root/actions-runner2/_work/Zap/Zap/report_html.html \
+               https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   # build-test:
   #   needs: Download-job
   #   name: Build & Test
