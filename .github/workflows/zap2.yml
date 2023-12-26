@@ -34,13 +34,13 @@ jobs:
         - uses: actions/upload-artifact@v2
           with:
             name: Zap_Report_2001
-            path: .github/workflows/
+            
             
 
 
   Download-job:
     needs: upload_job
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -48,14 +48,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Zap_Report_2001
-          path: .github/workflows/
+          
       # - name: List files in the artifact directory
       #   run: ls -R .github/workflows/Zap_Report_200/
   
 
   upload_to_Nextcloude:
     needs: Download-job
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
       - name: Upload to Nextcloud
         run: |
           curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
-               -T /.github/workflows/report_html.html \
+               -T report_html.html \
                https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   # build-test:
   #   needs: Download-job
