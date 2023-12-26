@@ -47,8 +47,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Zap_Report_200
-      - name: List files in the artifact directory
-        run: ls -R .github/workflows/Zap_Report_200/
+      # - name: List files in the artifact directory
+      #   run: ls -R .github/workflows/Zap_Report_200/
   
 
   upload_to_Nextcloude:
