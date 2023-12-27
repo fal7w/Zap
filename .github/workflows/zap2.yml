@@ -20,8 +20,8 @@ jobs:
         uses: zaproxy/action-full-scan@v0.8.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue_title: Zap_Report_2001
-          artifact_name: Zap_Report_2001
+          issue_title: Zap_Report_2002
+          artifact_name: Zap_Report_2002
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           target: 'https://remittance.v1.fintechsys.net/admin/'
           
@@ -33,8 +33,8 @@ jobs:
           uses: actions/checkout@v2
         - uses: actions/upload-artifact@v2
           with:
-            name: Zap_Report_2001
-            path: .github/
+            name: Zap_Report_2002
+            path: .github/workflows
             
 
 
@@ -47,24 +47,24 @@ jobs:
       - name: Download an artifact
         uses: actions/download-artifact@v3
         with:
-          name: Zap_Report_2001
+          name: Zap_Report_2002
           
       # - name: List files in the artifact directory
       #   run: ls -R .github/workflows/Zap_Report_200/
   
 
-  upload_to_Nextcloude:
-    needs: Download-job
-    runs-on: self-hosted
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        # Upload to Nextcloud
-      - name: Upload to Nextcloud
-        run: |
-          curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
-               -T report_html.html \
-               https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
+  # upload_to_Nextcloude:
+  #   needs: Download-job
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       # Upload to Nextcloud
+  #     - name: Upload to Nextcloud
+  #       run: |
+  #         curl -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
+  #              -T report_html.html \
+  #              https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   build-test:
     needs: Download-job
     name: Build & Test
@@ -75,7 +75,7 @@ jobs:
         uses: trympet/nextcloud-artifacts-action@v2
         with:
           name: 'report_html.html'                                   # Name of the artifact
-          path: '.githb/'                                  # Globbing supported
+          path: '.githb/workflows'                                  # Globbing supported
           nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
           nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
           nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
