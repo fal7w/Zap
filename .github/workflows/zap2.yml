@@ -50,6 +50,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Zap_Report_2002
+          path: .github/workflows
           
       # - name: List files in the artifact directory
       #   run: ls -R .github/workflows/Zap_Report_200/
@@ -69,19 +70,33 @@ jobs:
   #              https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   build-test:
     needs: Download-job
-    name: Build & Test
-    runs-on: self-hosted
-    permissions: write-all
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2                               # checkout the repo
-      - name: Nextcloud Artifact
-        uses: trympet/nextcloud-artifacts-action@v2
-        with:
-          name: 'report_html.html'                                   # Name of the artifact
-          path: '.githb/workflows'                                  # Globbing supported
-          nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
-          nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
-          nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Upload file to Nextcloud
+      run: | 
+        #!/bin/bash
+          curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -X PUT -d @.github/workflows/report_html.html "https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff"
+      env:
+        NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
+        NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
+
+    # name: Build & Test
+    # runs-on: self-hosted
+    # permissions: write-all
+    # steps:
+    #   - uses: actions/checkout@v2                               # checkout the repo
+    #   - name: Nextcloud Artifact
+    #     uses: trympet/nextcloud-artifacts-action@v2
+    #     with:
+    #       name: 'report_html.html'                                   # Name of the artifact
+    #       path: '.githb/workflows'                                  # Globbing supported
+    #       nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
+    #       nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
+    #       nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
   # deploy:
   #   needs: Download-job
