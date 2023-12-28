@@ -52,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Zap_Report_323
-          path: ${{ github.workspace }}
+          
           
       # - name: List files in the artifact directory
       #   run: ls -R .github/workflows/Zap_Report_200/
