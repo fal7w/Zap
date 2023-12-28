@@ -79,7 +79,7 @@ jobs:
     - name: Upload file to Nextcloud
       run: | 
         #!/bin/bash
-          curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -X PUT -d @.github/workflows/report_html.html "https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff"
+        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T ./report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
       env:
         NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
         NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
