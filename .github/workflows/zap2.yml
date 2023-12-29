@@ -74,7 +74,7 @@ jobs:
   #              -T report_html.html \
   #              https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   build-test:
-    needs: upload_job
+    needs: Download-job
     # needs: download-artifact
     # needs: Download-job
     # runs-on: self-hosted
@@ -86,7 +86,7 @@ jobs:
 
     - name: Upload file to Nextcloud
       run: | 
-        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T .github/report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /home/runner/work/Zap/Zap/.github/Zap_Report_3233 https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
       env:
         NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
         NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
