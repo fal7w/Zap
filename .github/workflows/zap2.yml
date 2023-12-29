@@ -20,65 +20,38 @@ jobs:
         uses: zaproxy/action-full-scan@v0.8.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue_title: Zap_Report_33
-          artifact_name: Zap_Report_3233
+          issue_title: Zap_Report_3n
+          # artifact_name: Zap_Report_3233
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           target: 'https://remittance.v1.fintechsys.net/admin/'
 
-  print-ids:
-    needs: zap_scan
-    runs-on: self-hosted
-    # runs-on: ubuntu-latest
-    outputs:
-      artifact_id: ${{ steps.list-artifacts.outputs.artifact_id }}
-    steps:
-      # ... (previous steps)
+  
 
-      - name: List and Print Artifact IDs
-        id: list-artifacts
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            console.log(artifacts.data.artifacts);
-            if (artifacts.data.artifacts.length > 0) {
-              // Select the last artifact
-              const lastArtifact = artifacts.data.artifacts[artifacts.data.artifacts.length - 1];
-              const artifactId = lastArtifact.id;
-              console.log(`Last Artifact ID: ${artifactId}`);
-              core.setOutput('artifact_id', artifactId);
-            }
+  upload_job:
+      needs: zap_scan
+      # runs-on: self-hosted
+      runs-on: ubuntu-latest
+      # permissions: write-all
+      steps:
+        - name: Find ZAP Report
+          id: findreport
+          run: |
+            REPORT_PATH=$(find . -name 'report_html-*.html' | head -n 1)
+            echo "Report path: $REPORT_PATH"
+            echo "::set-output name=report_path::$REPORT_PATH"
+        - name: Upload file to Nextcloud
+          run: | 
+            curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T ${{ steps.findreport.outputs.report_path }} https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+          env:
+            NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
+            NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
-  download-artifact:
-    needs: print-ids
-    runs-on: self-hosted
-    # runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Download artifact using output ID
-        uses: actions/download-artifact@v2
-        with:
-          # Use the artifact ID from the output of the previous job
-          name: ${{ needs.print-ids.outputs.artifact_id }}
-
-  # upload_job:
-  #     needs: zap_scan
-  #     # runs-on: self-hosted
-  #     runs-on: ubuntu-latest
-  #     # permissions: write-all
-  #     steps:
-  #       - name: Checkout
-  #         uses: actions/checkout@v2
-  #       - uses: actions/upload-artifact@v2
-  #         with:  
-  #           name: Zap_Report_323
-  #           path: ${{ github.workspace }}
+        # - name: Checkout
+        #   uses: actions/checkout@v2
+        # - uses: actions/upload-artifact@v2
+        #   with:  
+        #     name: Zap_Report_3233
+        #     path: .github/
             
 
 
@@ -114,7 +87,7 @@ jobs:
   #              https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   build-test:
     # needs: zap_scan
-    needs: download-artifact
+    # needs: download-artifact
     # needs: Download-job
     # runs-on: self-hosted
     runs-on: ubuntu-latest
