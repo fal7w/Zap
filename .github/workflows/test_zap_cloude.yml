@@ -1,0 +1,19 @@
+name: test
+on:
+  workflow_dispatch:
+  
+jobs:
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Upload file to Nextcloud
+      run: | 
+        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /.github/workflows/my_context_file https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+      env:
+        NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
+        NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
