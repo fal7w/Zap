@@ -33,40 +33,28 @@ jobs:
       runs-on: ubuntu-latest
       # permissions: write-all
       steps:
-        - name: Find ZAP Report
-          id: findreport
-          run: |
-            REPORT_PATH=$(find . -name 'report_html-*.html' | head -n 1)
-            echo "Report path: $REPORT_PATH"
-            echo "::set-output name=report_path::$REPORT_PATH"
-        - name: Upload file to Nextcloud
-          run: | 
-            curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T ${{ steps.findreport.outputs.report_path }} https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
-          env:
-            NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
-            NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
-
-        # - name: Checkout
-        #   uses: actions/checkout@v2
-        # - uses: actions/upload-artifact@v2
-        #   with:  
-        #     name: Zap_Report_3233
-        #     path: .github/
+        - name: Checkout
+          uses: actions/checkout@v2
+        - uses: actions/upload-artifact@v2
+          with:  
+            name: Zap_Report_3233
+            path: .github/
             
 
 
-  # Download-job:
-  #   needs: upload_job
-  #   # runs-on: self-hosted
-  #   runs-on: ubuntu-latest
-  #   # permissions: write-all
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Download an artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: Zap_Report_323
+  Download-job:
+    needs: upload_job
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    # permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download an artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Zap_Report_3233
+          path: .github/
           
           
       # - name: List files in the artifact directory
@@ -86,116 +74,24 @@ jobs:
   #              -T report_html.html \
   #              https://nextcloud.fintechsys.net/index.php/apps/files/${{ secrets.NEXTCLOUD_USERNAME }}/?dir=/Documents/ff&fileid=8332
   build-test:
-    # needs: zap_scan
+    needs: upload_job
     # needs: download-artifact
     # needs: Download-job
     # runs-on: self-hosted
     runs-on: ubuntu-latest
-
+    permissions: write-all
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Upload file to Nextcloud
       run: | 
-        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /${{ github.workspace }}/report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T .github/report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
       env:
         NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
         NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
-    # name: Build & Test
-    # runs-on: self-hosted
-    # permissions: write-all
-    # steps:
-    #   - uses: actions/checkout@v2                               # checkout the repo
-    #   - name: Nextcloud Artifact
-    #     uses: trympet/nextcloud-artifacts-action@v2
-    #     with:
-    #       name: 'report_html.html'                                   # Name of the artifact
-    #       path: '.githb/workflows'                                  # Globbing supported
-    #       nextcloud-url: 'https://nextcloud.fintechsys.net'        # Nextcloud URL
-    #       nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} # Username from repository secret
-    #       nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
-  # deploy:
-  #   needs: Download-job
-  #   # runs-on: ubuntu-latest
-  #   runs-on: self-hosted
-  #   permissions: write-all
-  #   steps:
-  #   - name: Checkout Repository
-  #     uses: actions/checkout@v2
-
-  #   - name: Upload to Nextcloud
-  #     env:
-  #       NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
-  #       NEXTCLOUD_APP_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
-  #       NEXTCLOUD_URL: "https://nextcloud.fintechsys.net/index.php/u/f.falah/" # replace with your Nextcloud WebDAV URL
-  #     run: |
-  #       curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_APP_PASSWORD -T .githb/Zap_Report_228/ https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/Documents/ff&fileid=8332
-
- # $NEXTCLOUD_URL/path/to/destination/
-      # - name: dowmload
-      #   run: |
-      #     gh api \
-      #     -H "Accept: application/vnd.github+json" \
-      #     -H "X-GitHub-Api-Version: 2022-11-28" \
-      #     /repos/fal7w/Zap.git/actions/artifacts/${artifact.id}
-
-
-
-          
-  # build:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   # Add steps for your build process here
-  #   - name: sleep
-  #     run: |
-  #       sleep 200
-  #   - name: Upload artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: Zap_Report_26
-  #       path: path/to/your/artifact
-
-  #   - name: Get Run ID
-  #     run: echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
-  
-  # get-artifact-url:
-  #   needs: zap_scan
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/download-artifact@v4
-  #       run: |
-  #         echo "The artifact URL is: https://github.com/${{ github.repository }}/actions/runs/$RUN_ID"
-  # Download_uplaod:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     -
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: Zap_Report_25
-  #     -
-  #       name: Decompress artifact
-  #       run: tar -xvf Zap_Report_25.tar.gz
-  #     -
-  #       name: Show files
-  #       run: ls -l Zap_Report_25
-  #     -
-  #       name: Upload files
-  #       run: |
-  #         for FILE in Zap_Report_25/*
-  #         do
-  #           echo "Uploading file: $FILE"
-  #           curl \
-  #             -u ${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }} \
-  #             -T "$FILE" \
-  #             -g ${{ secrets.NEXTCLOUD_URL }}/remote.php/dav/files/${{ secrets.NEXTCLOUD_USERNAME }}/GitHub-Uploads/
-  #         done
-      # run: ls -R .github
       # - name: Send Email with Artifact
       #   uses: dawidd6/action-send-mail@v3
       #   with:
@@ -221,25 +117,8 @@ jobs:
 
 
 
-      # - name: Upload to Nextcloud
-      #   uses: MarcinOrlowski/nextcloud-upload-file@v1
-      #   with:
-      #     url: https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723
-      #     username: ${{ secrets.NEXTCLOUD_USERNAME }}
-      #     password: ${{ secrets.NEXTCLOUD_PASSWORD }}
-      #     local_file_path: report_html.html
-      #     remote_file_path: /Documents/ff/report_html.html
+ 
 
 
 
 
-
-      # - name: Nextcloud Artifact
-      #   uses: trympet/nextcloud-artifacts-action@v2
-      #   with:
-      #     name: 'Zap_Report_2'                               
-      #     path: dist
-      #     # path: 'bin/**/*.exe'                                 
-      #     nextcloud-url: 'https://nextcloud.fintechsys.net/index.php/apps/files/?dir=/&fileid=3723'        
-      #     nextcloud-username: ${{ secrets.NEXTCLOUD_USERNAME }} 
-      #     nextcloud-password: ${{ secrets.NEXTCLOUD_PASSWORD }}
