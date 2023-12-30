@@ -47,7 +47,13 @@ jobs:
           # http_login_http_password: ${{ secrets.ZAP_USER_PW }}
           # rules_file_name: '.zap/rules.tsv'
           # cmd_options: ' -n my_context_file.yml -U admin'
-
+        
+      - name: Upload file to Nextcloud
+        run: | 
+           curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+        env:
+          NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
+          NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
 
       - name: Send Email with Artifact
         uses: dawidd6/action-send-mail@v3
