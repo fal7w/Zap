@@ -29,12 +29,12 @@ jobs:
 
   upload_job:
       needs: zap_scan
-      # runs-on: self-hosted
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
+      # runs-on: ubuntu-latest
       # permissions: write-all
       steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+        # - name: Checkout
+        #   uses: actions/checkout@v2
         - uses: actions/upload-artifact@v2
           with:  
             name: Zap_Report_3233
@@ -44,12 +44,12 @@ jobs:
 
   Download-job:
     needs: upload_job
-    # runs-on: self-hosted
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
     # permissions: write-all
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
       - name: Download an artifact
         uses: actions/download-artifact@v3
         with:
@@ -81,12 +81,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    # - name: Checkout repository
+    #   uses: actions/checkout@v2
 
     - name: Upload file to Nextcloud
       run: | 
-        curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /home/runner/work/Zap/Zap/.github/Zap_Report_3233 https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+         curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_json.json https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
       env:
         NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
         NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
