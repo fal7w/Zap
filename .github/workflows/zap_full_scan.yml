@@ -6,7 +6,8 @@ on:
   
 jobs:
   zap_scan:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: self-hosted
     # env:
     #   ZAP_AUTH_HEADER_VALUE: Basic ${{ secrets.ZAP_BASIC_TOKEN }}
     permissions: write-all
