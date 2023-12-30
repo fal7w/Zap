@@ -51,7 +51,8 @@ jobs:
         
       - name: Upload file to Nextcloud
         run: | 
-           curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_html.html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+           mv /root/actions-runner2/_work/Zap/Zap/report_html.html  report_$(date +'%Y-%m-%d').html
+           curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_$(date +'%Y-%m-%d').html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
         env:
           NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
           NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
@@ -64,7 +65,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: ZAP full scan HTML report
-          html_body: file://report_html.html
+          html_body: file://report_$(date +'%Y-%m-%d').html
           body: Build artifact attached.
           to: ${{ secrets.USERS_EMAILS }}
           from: f.alfalahi@fintechsys.net
