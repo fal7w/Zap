@@ -48,15 +48,6 @@ jobs:
           # http_login_http_password: ${{ secrets.ZAP_USER_PW }}
           # rules_file_name: '.zap/rules.tsv'
           # cmd_options: ' -n my_context_file.yml -U admin'
-        
-      - name: Upload file to Nextcloud
-        run: | 
-           mv /root/actions-runner2/_work/Zap/Zap/report_html.html  report_$(date +'%Y-%m-%d').html
-           curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_$(date +'%Y-%m-%d').html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
-        env:
-          NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
-          NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
-
       - name: Send Email with Artifact
         uses: dawidd6/action-send-mail@v3
         with:
@@ -65,7 +56,17 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: ZAP full scan HTML report
-          html_body: file://report_$(date +'%Y-%m-%d').html
+          html_body: file://report_html.html
           body: Build artifact attached.
           to: ${{ secrets.USERS_EMAILS }}
           from: f.alfalahi@fintechsys.net
+          
+      - name: Upload file to Nextcloud
+        run: | 
+           mv /root/actions-runner2/_work/Zap/Zap/report_html.html  report_$(date +'%Y-%m-%d').html
+           curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T /root/actions-runner2/_work/Zap/Zap/report_$(date +'%Y-%m-%d').html https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
+        env:
+          NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
+          NEXTCLOUD_PASSWORD: ${{ secrets.NEXTCLOUD_PASSWORD }}
+
+      
