@@ -1,7 +1,8 @@
 name: ZAP Full Scan
 on:
   schedule:
-    - cron: '0 0 * * 0'  #
+    - cron: '0 0 * * 0' #Day of month field: 1-7/14 (match every 14 days starting from the 1st day of the month).
+    
   workflow_dispatch:
   
 jobs:
