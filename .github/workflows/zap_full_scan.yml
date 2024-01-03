@@ -49,6 +49,8 @@ jobs:
           # http_login_http_password: ${{ secrets.ZAP_USER_PW }}
           # rules_file_name: '.zap/rules.tsv'
           # cmd_options: ' -n my_context_file.yml -U admin'
+        env:
+         ZAP_AUTH_HEADER_VALUE: 'Basic YWRtaW46YWRtaW4='
       - name: Send Email with Artifact
         uses: dawidd6/action-send-mail@v3
         with:
