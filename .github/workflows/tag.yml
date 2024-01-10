@@ -17,8 +17,8 @@ jobs:
           fi
 
       - name: Increment Patch Version and Create Tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e  # Stop on the first error
           
