@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: fintech-runner
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
