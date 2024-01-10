@@ -32,7 +32,7 @@ jobs:
             minor=0
             patch=0
           fi
-           ((patch++))
+           patch=$((patch + 1))
 
           new_version="v$major.$minor.$patch"
           echo "$new_version" > version.txt
