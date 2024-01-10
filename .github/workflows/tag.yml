@@ -17,8 +17,8 @@ jobs:
           fi
 
       - name: Increment Patch Version and Create Tag
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
         run: |
           set -x
           current_version=$(cat version.txt)
@@ -35,12 +35,10 @@ jobs:
            patch=$((patch + 1))
           new_version="v$major.$minor.$patch"
           echo "$new_version" > version.txt
-          export GIT_ASKPASS="$(pwd)/.git-askpass.sh"
-          echo "echo \"${{ secrets.GH_TOKEN }}\"" > $GIT_ASKPASS
-          chmod +x $GIT_ASKPASS
-
           git tag "$new_version"
           git push origin "$new_version"
+
+          
         # new_version="v$major.$minor.$patch"
         # echo "$new_version" > version.txt
     
