@@ -10,11 +10,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Create version.txt if it doesn't exist
-        run: |
-          if [ ! -f version.txt ]; then
-            echo "v1.0.0" > version.txt
-          fi
+      # - name: Create version.txt if it doesn't exist
+      #   run: |
+      #     if [ ! -f version.txt ]; then
+      #       echo "v1.0.0" > version.txt
+      #     fi
 
       - name: Increment Patch Version and Create Tag
         env:
