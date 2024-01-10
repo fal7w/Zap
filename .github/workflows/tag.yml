@@ -13,6 +13,8 @@ jobs:
 
       # Increment the patch version and create a new tag
       - name: Increment Patch Version and Create Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the latest tag
           latest_tag=$(git describe --tags --abbrev=0)
@@ -36,3 +38,4 @@ jobs:
           new_tag="v$major.$minor.$patch"
           git tag "$new_tag"
           git push origin "$new_tag"
+
