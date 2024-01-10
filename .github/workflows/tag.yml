@@ -17,34 +17,27 @@ jobs:
           fi
 
       - name: Increment Patch Version and Create Tag
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -e  # Stop on the first error
-          
+          set -x
           current_version=$(cat version.txt)
-
           if [[ $current_version =~ v([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
             major="${BASH_REMATCH[1]}"
             minor="${BASH_REMATCH[2]}"
             patch="${BASH_REMATCH[3]}"
           else
+            # If the version file does not follow semantic versioning, set default values
             major=1
             minor=0
             patch=0
           fi
-
+      
           ((patch++))
-
+      
           new_version="v$major.$minor.$patch"
           echo "$new_version" > version.txt
-
-          if ! git tag "$new_version"; then
-            echo "Error: Failed to create tag."
-            exit 1
-          fi
-
-          if ! git push origin "$new_version"; then
-            echo "Error: Failed to push tag to origin."
-            exit 1
-          fi
+      
+          git tag "$new_version"
+          git push origin "$new_version"
+        
