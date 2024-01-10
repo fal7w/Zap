@@ -31,7 +31,6 @@ jobs:
             minor="${BASH_REMATCH[2]}"
             patch="${BASH_REMATCH[3]}"
           else
-            # If the version file does not follow semantic versioning, set default values
             major=1
             minor=0
             patch=0
