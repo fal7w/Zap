@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read the current version from the version file
+          set -x
           current_version=$(cat version.txt)
 
           # Extract major, minor, and patch components
