@@ -1,0 +1,38 @@
+name: Create a new tag
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Increment the patch version and create a new tag
+      - name: Increment Patch Version and Create Tag
+        run: |
+          # Get the latest tag
+          latest_tag=$(git describe --tags --abbrev=0)
+
+          # Extract major, minor, and patch components
+          if [[ $latest_tag =~ v([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+          else
+            # If the latest tag does not follow semantic versioning, set default values
+            major=1
+            minor=0
+            patch=0
+          fi
+
+          # Increment the patch version
+          ((patch++))
+
+          # Create the new tag
+          new_tag="v$major.$minor.$patch"
+          git tag "$new_tag"
+          git push origin "$new_tag"
