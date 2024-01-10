@@ -9,9 +9,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
+      
       - name: Create version.txt if it doesn't exist
         run: |
           if [ ! -f version.txt ]; then
