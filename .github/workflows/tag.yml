@@ -11,6 +11,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Create version.txt if it doesn't exist
+      - name: Create version.txt
+        run: |
+          if [ ! -f version.txt ]; then
+            echo "v1.0.0" > version.txt
+          fi
+
       # Increment the patch version and create a new tag with timestamp
       - name: Increment Patch Version and Create Tag
         env:
