@@ -18,7 +18,7 @@ jobs:
 
       - name: Increment Patch Version and Create Tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
         run: |
           set -x
           current_version=$(cat version.txt)
