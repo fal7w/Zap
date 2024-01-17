@@ -9,20 +9,13 @@ on:
 jobs:
   dast_scan:
     runs-on: ubuntu-latest
-    
-    # services:
-    #   zap:
-    #     image: owasp/zap2docker
-    #     ports:
-    #       - 8080:8080
 
 
-
-    env:
-      WEBSITE: "https://remittance.v1.fintechsys.net"
-      LOGIN_URL: "https://remittance.v1.fintechsys.net/admin/"
-      AUTH_USERNAME: "admin"
-      AUTH_PASSWORD: "admin"
+    # env:
+    #   WEBSITE: "https://remittance.v1.fintechsys.net"
+    #   LOGIN_URL: "https://remittance.v1.fintechsys.net/admin/"
+    #   AUTH_USERNAME: "admin"
+    #   AUTH_PASSWORD: "admin"
 
     steps:
       - name: Checkout code
@@ -30,15 +23,18 @@ jobs:
 
       - name: Set up ZAP
         run: |
-          mkdir /zap/wrk/
-          zap-baseline.py -J gl-dast-report.json -t $WEBSITE \
-            --auth-url $LOGIN_URL \
-            --auth-username "$AUTH_USERNAME" \
-            --auth-password "$AUTH_PASSWORD" || true
-          cp /zap/wrk/gl-dast-report.json .
+          docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -I -j -m 10 -T 60 \
+            -t https://remittance.v1.fintechsys.net/admin/' \
+            -r testreport.html \
+            --hook=/zap/auth_hook.py \
+            -z "auth.loginurl=https://remittance.v1.fintechsys.net/admin/ \
+                auth.username="admin" \
+                auth.password="admin" \
+                auth.username_field="username" \
+                auth.password_field="password" \
+                auth.submit_field="submit" \
+                auth.exclude=".*logout.*,http://url.com/somepath.*" \
+                auth.include="https://api.website.net.*"
 
-      - name: Upload DAST report
-        uses: actions/upload-artifact@v2
-        with:
-          name: dast-report
-          path: gl-dast-report.json
+
+     
