@@ -24,7 +24,7 @@ jobs:
       - name: Set up ZAP
         run: |
           docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -I -j -m 10 -T 60 \
-            -t https://remittance.v1.fintechsys.net/admin/' \
+            -t https://remittance.v1.fintechsys.net/admin/ \
             -r testreport.html \
             --hook=/zap/auth_hook.py \
             -z "auth.loginurl=https://remittance.v1.fintechsys.net/admin/ \
