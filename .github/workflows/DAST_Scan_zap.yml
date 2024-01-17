@@ -11,16 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     
     services:
-      zap:
-        image: owasp/zap2docker-stable
-        ports:
-          - 8080:8080
+       zap:
+          image: owasp/zap2docker-stable:2.11.0
+          ports:
+            - 8080:8080
+
 
     env:
-      WEBSITE: "https://example.com"
-      LOGIN_URL: "https://example.com/sign-in"
-      AUTH_USERNAME: "john.doe@example.com"
-      AUTH_PASSWORD: "john-doe-password"
+      WEBSITE: "https://remittance.v1.fintechsys.net"
+      LOGIN_URL: "https://remittance.v1.fintechsys.net/admin/"
+      AUTH_USERNAME: "admin"
+      AUTH_PASSWORD: "admin"
 
     steps:
       - name: Checkout code
