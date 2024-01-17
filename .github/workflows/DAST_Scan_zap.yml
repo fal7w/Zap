@@ -33,8 +33,8 @@ jobs:
                 auth.username_field="username" \
                 auth.password_field="password" \
                 auth.submit_field="submit" \
-                auth.exclude=".*logout.*,http://url.com/somepath.*" \
-                auth.include="https://api.website.net.*"
+        # auth.exclude=".*logout.*,http://url.com/somepath.*" \
+        # auth.include="https://api.website.net.*"
 
 
      
