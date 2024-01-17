@@ -35,6 +35,11 @@ jobs:
                 auth.submit_field="submit" \ "
         # auth.exclude=".*logout.*,http://url.com/somepath.*" \
         # auth.include="https://api.website.net.*"
+  send-email:
+    runs-on: ubuntu-latest
+
+
+    steps:   
       - name: Send Email with Artifact
         uses: dawidd6/action-send-mail@v3
         with:
