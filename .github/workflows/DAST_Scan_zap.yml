@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     
     services:
-       zap:
-          image: owasp/zap2docker-stable:2.11.0
-          ports:
-            - 8080:8080
+      zap:
+        image: owasp/zap2docker
+        ports:
+          - 8080:8080
+
 
 
     env:
