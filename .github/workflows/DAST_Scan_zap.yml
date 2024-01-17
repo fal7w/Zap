@@ -10,11 +10,11 @@ jobs:
   dast_scan:
     runs-on: ubuntu-latest
     
-    services:
-      zap:
-        image: owasp/zap2docker
-        ports:
-          - 8080:8080
+    # services:
+    #   zap:
+    #     image: owasp/zap2docker
+    #     ports:
+    #       - 8080:8080
 
 
 
