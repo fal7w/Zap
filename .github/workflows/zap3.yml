@@ -1,0 +1,22 @@
+name: zap3
+on:
+  schedule:
+    - cron: '0 0 * * 0' #Day of month field: 1-7/14 (match every 14 days starting from the 1st day of the month).
+    
+  workflow_dispatch:
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    # runs-on: self-hosted
+    # env:
+    #   ZAP_AUTH_HEADER_VALUE: Basic ${{ secrets.ZAP_BASIC_TOKEN }}
+    permissions: write-all
+    name: Scan the webapplication
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: full scan
+        run: |
+          docker run -v $(pwd):/zap/wrk/:rw --network=host -e ZAP_AUTH_HEADER_VALUE='Basic MWJmYzU3NThiNzE2ZTlhOjRiZGZjNDhhMWU1MjA4YQ=='  -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://systemdemo.fintechsys.net/app -J report_json.json -w report_md.md -r report_html.html
