@@ -18,7 +18,7 @@ jobs:
         echo  ${{ github.event.pull_request.base.ref }}
         echo ${{ github.repository }}
         echo ${{ github.repository_basename }}
-        echo ${GITHUB_REPOSITORY#*/}"
+        echo ${GITHUB_REPOSITORY#*/}
       #   curl -u $NEXTCLOUD_USERNAME:$NEXTCLOUD_PASSWORD -T .github/workflows/OWSAP_ZAP.yml https://nextcloud.fintechsys.net/remote.php/dav/files/$NEXTCLOUD_USERNAME/Documents/ff/
       # env:
       #   NEXTCLOUD_USERNAME: ${{ secrets.NEXTCLOUD_USERNAME }}
